@@ -38,10 +38,12 @@ int main() {
         {
             cout << "\nИграть еще? (y/n): \n\n";
             cin >> answer;
+            cin.ignore(10000, '\n');
         } while (answer != 'y' && answer != 'n');
         system("cls");
 
     }
-
+    cin.ignore();
+    cin.get();
     return 0;
 }
