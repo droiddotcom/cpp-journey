@@ -3,19 +3,32 @@
 #include <windows.h>
 using namespace std;
 
+void print_menu() {
+    system("cls");
+
+    cout << "=== КАЛЬКУЛЯТОР ===\n";
+    cout << "1. Сложение\n";
+    cout << "2. Вычитание\n";
+    cout << "3. Умножение\n";
+    cout << "4. Деление\n";
+    cout << "0. Выход\n";
+    cout << "Выбор: ";
+}
+
+bool read_number(double& value) {
+    if (!(cin >> value)) {
+        cin.clear();
+        cin.ignore(10000, '\n');
+        return false;
+    }
+    return true;
+}
+
 int main() {
     SetConsoleCP(65001);
     SetConsoleOutputCP(65001);
     while (true) {
-        system("cls");   
-
-        cout << "=== КАЛЬКУЛЯТОР ===\n";
-        cout << "1. Сложение\n";
-        cout << "2. Вычитание\n";
-        cout << "3. Умножение\n";
-        cout << "4. Деление\n";
-        cout << "0. Выход\n";
-        cout << "Выбор: ";
+        print_menu();
 
         int choice;
 
@@ -43,17 +56,13 @@ int main() {
 
         double a, b;
         cout << "Первое число: ";
-        if (!(cin >> a)) {
-            cin.clear();
-            cin.ignore(10000, '\n');
+        if (!read_number(a)) {
             cout << "Это не число! Нажми Enter...\n";
             cin.get();
             continue;
         }
         cout << "Второе число: ";
-        if (!(cin >> b)) {
-            cin.clear();
-            cin.ignore(10000, '\n');
+        if (!read_number(b)) {
             cout << "Это не число! Нажми Enter...\n";
             cin.get();
             continue;
