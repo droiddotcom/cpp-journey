@@ -8,3 +8,9 @@ Release/
 *.tlog
 *.obj
 *.exe
+
+# Build
+*.ilk
+*.pdb
+*.idb
+*.exp

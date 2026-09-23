@@ -1,0 +1,8 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="GuessANumber/GuessANumber.vcxproj" Id="41781a00-d837-4d72-af62-f0663e0ec4a6" />
+  <Project Path="Kalkulator1/Kalkulator1.vcxproj" Id="53b432b7-b446-4ead-8453-741c19fda07b" />
+</Solution>
