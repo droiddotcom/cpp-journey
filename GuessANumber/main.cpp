@@ -26,7 +26,8 @@ int main() {
     srand(time(0));
     char answer = 'y';
     int max_number = 100;
-    
+    int max_attempts = 0;
+
 
     while (answer == 'y') {
         select_difficulty();
@@ -55,25 +56,48 @@ int main() {
 
         switch (choice) 
         {
-            case 1: max_number = 50; break;
-            case 2: max_number = 100; break;
-            case 3: max_number = 1000; break;
-            default: max_number = 100; break;
+            case 1: 
+                max_number = 50;
+                max_attempts = 7;
+                break;
+            case 2: 
+                max_number = 100; 
+                max_attempts = 10;
+                break;
+            case 3: 
+                max_number = 1000; 
+                max_attempts = 11;
+                break;
+            default: 
+                max_number = 100; 
+                max_attempts = 10;
+                break;
         }
 
         secret = rand() % max_number + 1;
         system("cls");
         cout << "Угадай число от 1 до " << max_number << "\n";
-        while (secret != guess)
+        while (secret != guess && max_attempts != 0)
         {
             cout << "Твой выбор: ";
             cin >> guess;
             ++attempts;
-            if (guess > secret) { cout << "Меньше\n\n"; }
-            else if (guess < secret) { cout << "Больше\n\n"; }
+            --max_attempts;
+            cout << "\nПопыток осталось: " << max_attempts;
+            if (guess > secret) { cout << "\nЗагаданное число: Меньше\n\n"; }
+            else if (guess < secret) { cout << "\nЗагаданное число: Больше\n\n"; }
         }
-        cout << "\n\nУгадал! Это было число: " << secret << "!" << "\n";
-        cout << "Попыток: " << attempts;
+
+        if (max_attempts <= 0)
+        {
+            cout << "\nНе угадал! Это было число: " << secret;
+            cout << "\nПопробуй еще раз..";
+        }
+        else {
+            cout << "\n\nУгадал! Это было число: " << secret << "!" << "\n";
+            cout << "Попыток: " << attempts;
+        }
+        
         do
         {
             cout << "\nИграть еще? (y/n): ";
