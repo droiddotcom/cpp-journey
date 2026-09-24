@@ -80,7 +80,12 @@ int main() {
         while (secret != guess && max_attempts != 0)
         {
             cout << "Твой выбор: ";
-            cin >> guess;
+            if (!(cin >> guess)) {
+                cin.clear();
+                cin.ignore(10000, '\n');
+                cout << "Это не число! Попробуй еще.\n";
+                continue;
+            }
             ++attempts;
             --max_attempts;
             cout << "\nПопыток осталось: " << max_attempts;
