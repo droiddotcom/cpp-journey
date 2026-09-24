@@ -15,7 +15,7 @@ void print_menu()
 
 struct Task {
     string text;
-    bool done;
+    bool done = false;
 };
 
 
@@ -29,7 +29,7 @@ int main() {
     {
         print_menu();
         int choice;
-
+        cout << "Твой выбор: ";
 
         if (!(cin >> choice))
         {
@@ -55,17 +55,39 @@ int main() {
 
         switch (choice)
         {
-            case 1:
-                cin.ignore(10000, '\n');
-                Task my_task;             
-                cout << "Текст: ";
-                getline(cin, my_task.text);
-                my_task.done = false;
-                tasks.push_back(my_task);
+        case 1:
+        {
+            cin.ignore(10000, '\n');
+            Task my_task;
+            cout << "Текст: ";
+            getline(cin, my_task.text);
+            my_task.done = false;
+            tasks.push_back(my_task);
+            break;
+        }
+        case 2: 
+        {
+            if (tasks.empty())
+            {
+                cout << "Задач пока нет\n";
                 break;
+            }
+            int i = 1;
+            for (auto item : tasks) {
+                cout << i << ". ";
+                if (item.done) { cout << "[x] "; }
+                else { cout << "[ ] "; }
+                cout << item.text << "\n";
+                ++i;
+            }
+            
+            break;
         }
 
+                
+        }
     }
-
+    cin.ignore();
+    cin.get();
     return 0;
 }
