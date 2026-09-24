@@ -35,10 +35,8 @@ int main() {
         int secret = 0;
         int attempts = 0;
         int guess = 0;
-
-
-
-
+            
+        
         if (!(cin >> choice)) {
             cin.clear();
             cin.ignore(10000, '\n');
@@ -100,7 +98,7 @@ int main() {
         }
         else {
             cout << "\n\nУгадал! Это было число: " << secret << "!" << "\n";
-            cout << "Попыток: " << attempts;
+            cout << "\nПопыток осталось: " << attempts;
         }
         
         do
@@ -109,7 +107,6 @@ int main() {
             cin >> answer;
             cin.ignore(10000, '\n');
         } while (answer != 'y' && answer != 'n');
-        system("cls");
     }
 
 

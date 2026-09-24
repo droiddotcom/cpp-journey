@@ -5,4 +5,5 @@
   </Configurations>
   <Project Path="GuessANumber/GuessANumber.vcxproj" Id="41781a00-d837-4d72-af62-f0663e0ec4a6" />
   <Project Path="Kalkulator1/Kalkulator1.vcxproj" Id="53b432b7-b446-4ead-8453-741c19fda07b" />
+  <Project Path="todo-list/todo-list.vcxproj" Id="031ba35c-5428-4743-8d5c-8242ede93a25" />
 </Solution>
