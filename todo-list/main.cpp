@@ -9,7 +9,9 @@ void print_menu()
     cout << "=== TODO LIST ===\n";
     cout << "1. Добавить задачу\n";
     cout << "2. Показать все задачи\n";
-    cout << "3. Выход\n";
+    cout << "3. Отметить выполненной\n";
+    cout << "4. Удалить задачу\n";
+    cout << "5. Выход\n";
 }
 
 
@@ -40,7 +42,7 @@ int main() {
             continue;
         }
 
-        if (choice < 1 || choice > 3)
+        if (choice < 1 || choice > 5)
         {
             cout << "Неверный пункт меню! Нажми Enter...";
             cin.ignore();
@@ -61,7 +63,6 @@ int main() {
             cout << "Задача добавлена.\n";
             cout << "Нажмите Enter...";
             cin.ignore();
-            cin.get();
             system("cls");
             break;
         }
@@ -91,6 +92,110 @@ int main() {
             break;
         }
         case 3:
+        {
+            if (tasks.empty())
+            {
+                cout << "Задач пока нет...\n";
+                cout << "Нажмите Enter...";
+                cin.ignore();
+                cin.get();
+                system("cls");
+                break;
+            }
+            int i = 1;
+            for (auto option : tasks)
+            {
+                cout << i << ". ";
+                if (option.done) { cout << "[x] "; }
+                else { cout << "[ ] "; }
+                cout << option.text << "\n";
+                ++i;
+            }
+
+            cout << "\nКакую задачу отметить?: ";
+            int option;
+            if (!(cin >> option))
+            {
+                cout << "\nНеправильно выбран номер задачи\n";
+                cin.clear();
+                cin.ignore(10000, '\n');
+                cout << "Нажмите Enter...";
+                cin.ignore();
+                system("cls");
+                continue;
+            }
+
+            if (option <= 0 || option > tasks.size())
+            {
+                cout << "Ошибка! Номера такой задачи не существует!\n";
+                cout << "Нажмите Enter...";
+                cin.ignore();
+                cin.get();
+                system("cls");
+                break;
+            }
+            tasks[option - 1].done = true;
+
+            cout << "Задача отмечена!\n";
+            cout << "Нажмите Enter...";
+            cin.ignore();
+            cin.get();
+            system("cls");
+            break;
+        }
+        case 4:
+        {
+            if (tasks.empty())
+            {
+                cout << "Задач пока нет...\n";
+                cout << "Нажмите Enter...";
+                cin.ignore();
+                cin.get();
+                system("cls");
+                break;
+            }
+            int i = 1;
+            for (auto option : tasks)
+            {
+                cout << i << ". ";
+                if (option.done) { cout << "[x] "; }
+                else { cout << "[ ] "; }
+                cout << option.text << "\n";
+                ++i;
+            }
+
+            cout << "Какую задачу удалить?: ";
+            int option;
+            if (!(cin >> option))
+            {
+                cout << "\nНеправильно выбран номер задачи\n";
+                cin.clear();
+                cin.ignore(10000, '\n');
+                cout << "Нажмите Enter...";
+                cin.ignore();
+                cin.get();
+                system("cls");
+                continue;
+            }
+            if (option <= 0 || option > tasks.size())
+            {
+                cout << "\nТакой задачи не существует!";
+                cout << "\nНажмите Enter...";
+                cin.ignore();
+                cin.get();
+                system("cls");
+                break;
+            }
+            tasks.erase(tasks.begin() + (option - 1));
+
+            cout << "\nЗадача удалена";
+            cout << "\nНажмите Enter...";
+            cin.ignore();
+            cin.get();
+            system("cls");
+            break;
+        }
+        case 5:
         {
             cout << "До свидания!\n";
             cout << "Нажмите Enter...";
