@@ -39,11 +39,6 @@ int main() {
             cin.get();
             continue;
         }
-        
-        if (choice == 3) {
-            cout << "До свидания!\n";
-            return 0;
-        }
 
         if (choice < 1 || choice > 3)
         {
@@ -63,6 +58,11 @@ int main() {
             getline(cin, my_task.text);
             my_task.done = false;
             tasks.push_back(my_task);
+            cout << "Задача добавлена.\n";
+            cout << "Нажмите Enter...";
+            cin.ignore();
+            cin.get();
+            system("cls");
             break;
         }
         case 2: 
@@ -70,6 +70,10 @@ int main() {
             if (tasks.empty())
             {
                 cout << "Задач пока нет\n";
+                cout << "Нажмите Enter...";
+                cin.ignore();
+                cin.get();
+                system("cls");
                 break;
             }
             int i = 1;
@@ -80,7 +84,19 @@ int main() {
                 cout << item.text << "\n";
                 ++i;
             }
-            
+            cout << "Нажмите Enter...";
+            cin.ignore();
+            cin.get();
+            system("cls");
+            break;
+        }
+        case 3:
+        {
+            cout << "До свидания!\n";
+            cout << "Нажмите Enter...";
+            cin.ignore();
+            cin.get();
+            return 0;
             break;
         }
 
