@@ -2,7 +2,14 @@
 #include <vector>
 #include <string>
 #include <Windows.h>
+#include <fstream>
 using namespace std;
+
+
+struct Task {
+    string text;
+    bool done = false;
+};
 
 void print_menu()
 {
@@ -14,17 +21,22 @@ void print_menu()
     cout << "5. Выход\n";
 }
 
+void save_file(const vector<Task>& tasks)
+{
+    ofstream file("tasks.txt");
+    for (auto& t : tasks)
+    {
+        file << t.text << "\n";
 
-struct Task {
-    string text;
-    bool done = false;
-};
-
+    }
+    file.close();
+}
 
 
 int main() {
     SetConsoleCP(65001);
     SetConsoleOutputCP(65001);
+
     vector<Task> tasks;
 
     while (true)
@@ -197,6 +209,7 @@ int main() {
         }
         case 5:
         {
+            save_file(tasks);
             cout << "До свидания!\n";
             cout << "Нажмите Enter...";
             cin.ignore();
