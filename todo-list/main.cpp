@@ -239,9 +239,18 @@ int main() {
                 system("cls");
                 break;
             }
-            tasks.erase(tasks.begin() + (option - 1));
-
-            cout << "\nЗадача удалена";
+            cout << "Точно удалить: \"" << tasks[option - 1].text << "\"? Введите 'удалить': ";
+            string confirm;
+            cin.ignore(10000, '\n');
+            getline(cin, confirm);
+            if (confirm == "Удалить" || confirm == "удалить")
+            {
+                tasks.erase(tasks.begin() + (option - 1));
+                cout << "\nЗадача удалена";
+            }
+            else {
+                cout << "Отменено\n";
+            }
             cout << "\nНажмите Enter...";
             cin.ignore();
             cin.get();
