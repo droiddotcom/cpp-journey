@@ -16,7 +16,7 @@ void print_menu()
     cout << "=== TODO LIST ===\n";
     cout << "1. Добавить задачу\n";
     cout << "2. Показать все задачи\n";
-    cout << "3. Отметить выполненной\n";
+    cout << "3. Сменить статус\n";
     cout << "4. Удалить задачу\n";
     cout << "5. Очистить все задачи\n";
     cout << "6. Выход\n";
@@ -164,9 +164,9 @@ int main() {
                 system("cls");
                 break;
             }
-            tasks[option - 1].done = true;
+            tasks[option - 1].done = !tasks[option - 1].done;
 
-            cout << "Задача отмечена!\n";
+            cout << "Статус изменен!\n";
             cout << "Нажмите Enter...";
             cin.ignore();
             cin.get();
