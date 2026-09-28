@@ -11,9 +11,15 @@ struct Task {
     bool done = false;
 };
 
+void set_color(int color) {
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+}
+
 void print_menu()
 {
+    set_color(14);
     cout << "=== TODO LIST ===\n";
+    set_color(7);
     cout << "1. Добавить задачу\n";
     cout << "2. Показать все задачи\n";
     cout << "3. Сменить статус\n";
@@ -49,9 +55,7 @@ void load_file(vector<Task>& tasks) {
     file.close();
 }
 
-void set_color(int color) {
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
-}
+
 
 
 int main() {
@@ -128,6 +132,12 @@ int main() {
                 cout << item.text << "\n";
                 ++i;
             }
+            int counter = 0;
+            for (auto item : tasks)
+            {
+                if (item.done) { ++counter; }
+            }
+            cout << "\nВсего: " << tasks.size() << " | " << "Выполнено: " << counter << "\n";
             cout << "Нажмите Enter...";
             cin.ignore();
             cin.get();
