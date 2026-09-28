@@ -26,7 +26,7 @@ void save_file(const vector<Task>& tasks)
     ofstream file("tasks.txt");
     for (auto& t : tasks)
     {
-        file << t.text << "\n";
+        file << t.done << "|" << t.text << "\n";
 
     }
     file.close();
@@ -40,7 +40,9 @@ void load_file(vector<Task>& tasks) {
     string line;
     while (getline(file, line)) {
         Task my_task;
-        my_task.text = line;
+        int pos = line.find('|');
+        my_task.text = line.substr(pos + 1);
+        my_task.done = (line[0] == '1');
         tasks.push_back(my_task);
     }
     file.close();
