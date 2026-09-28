@@ -18,7 +18,8 @@ void print_menu()
     cout << "2. Показать все задачи\n";
     cout << "3. Отметить выполненной\n";
     cout << "4. Удалить задачу\n";
-    cout << "5. Выход\n";
+    cout << "5. Очистить все задачи\n";
+    cout << "6. Выход\n";
 }
 
 void save_file(const vector<Task>& tasks)
@@ -71,7 +72,7 @@ int main() {
             continue;
         }
 
-        if (choice < 1 || choice > 5)
+        if (choice < 1 || choice > 6)
         {
             cout << "Неверный пункт меню! Нажми Enter...";
             cin.ignore();
@@ -225,6 +226,38 @@ int main() {
             break;
         }
         case 5:
+        {
+            if (tasks.empty())
+            {
+                cout << "Задач нет\n";
+                cin.ignore();
+                cin.get();
+                system("cls");
+                break;
+            }
+            cout << "Точно удалить? Введите \'удалить\'\n";
+
+            cin.ignore(10000, '\n');
+            string confirm;
+            getline(cin, confirm);
+
+            if (confirm == "удалить" || confirm == "Удалить")
+            {
+                tasks.clear();
+                cout << "Задачи удалены!\n";
+                cout << "Нажмите Enter..";
+            }
+            else {
+                cout << "Отменено\n";
+                cout << "Нажмите Enter..";
+            }
+
+            cin.ignore();
+            cin.get();
+            system("cls");
+            break;
+        }
+        case 6:
         {
             save_file(tasks);
             cout << "До свидания!\n";
