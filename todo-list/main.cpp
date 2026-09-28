@@ -32,12 +32,27 @@ void save_file(const vector<Task>& tasks)
     file.close();
 }
 
+void load_file(vector<Task>& tasks) {
+    ifstream file("tasks.txt");
+    if (!file.is_open()) {
+        return;
+    }
+    string line;
+    while (getline(file, line)) {
+        Task my_task;
+        my_task.text = line;
+        tasks.push_back(my_task);
+    }
+    file.close();
+}
+
 
 int main() {
     SetConsoleCP(65001);
     SetConsoleOutputCP(65001);
 
     vector<Task> tasks;
+    load_file(tasks);
 
     while (true)
     {
