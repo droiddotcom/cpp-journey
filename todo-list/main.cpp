@@ -49,6 +49,10 @@ void load_file(vector<Task>& tasks) {
     file.close();
 }
 
+void set_color(int color) {
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+}
+
 
 int main() {
     SetConsoleCP(65001);
@@ -77,6 +81,7 @@ int main() {
             cout << "Неверный пункт меню! Нажми Enter...";
             cin.ignore();
             cin.get();
+            system("cls");
             continue;
         }
 
@@ -110,8 +115,16 @@ int main() {
             int i = 1;
             for (auto item : tasks) {
                 cout << i << ". ";
-                if (item.done) { cout << "[x] "; }
-                else { cout << "[ ] "; }
+                if (item.done) { 
+                    set_color(10);
+                    cout << "[x] "; 
+                    set_color(7);
+                }
+                else { 
+                    set_color(12);
+                    cout << "[ ] "; 
+                    set_color(7);
+                }
                 cout << item.text << "\n";
                 ++i;
             }
