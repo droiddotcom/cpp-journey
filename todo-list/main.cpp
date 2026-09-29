@@ -25,7 +25,8 @@ void print_menu()
     cout << "3. Сменить статус\n";
     cout << "4. Удалить задачу\n";
     cout << "5. Очистить все задачи\n";
-    cout << "6. Выход\n";
+    cout << "6. Редактировать задачу\n";
+    cout << "7. Выход\n";
 }
 
 void save_file(const vector<Task>& tasks)
@@ -56,8 +57,6 @@ void load_file(vector<Task>& tasks) {
 }
 
 
-
-
 int main() {
     SetConsoleCP(65001);
     SetConsoleOutputCP(65001);
@@ -80,7 +79,7 @@ int main() {
             continue;
         }
 
-        if (choice < 1 || choice > 6)
+        if (choice < 1 || choice > 7)
         {
             cout << "Неверный пункт меню! Нажми Enter...";
             cin.ignore();
@@ -290,6 +289,61 @@ int main() {
             break;
         }
         case 6:
+        {
+            if (tasks.empty())
+            {
+                cout << "Задач пока нет...\n";
+                cout << "Нажмите Enter...";
+                cin.ignore();
+                cin.get();
+                system("cls");
+                break;
+            }
+
+            int i = 1;
+            for (auto item : tasks)
+            {
+                cout << i << ". ";
+                if (item.done) { cout << "[x] "; }
+                else { cout << "[ ] "; }
+                cout << item.text << "\n";
+                ++i;
+
+            }
+            cout << "Какую задачу редактировать?: ";
+            int option;
+            if (!(cin >> option))
+            {
+                cout << "\nНеправильно выбран номер задачи\n";
+                cin.clear();
+                cin.ignore(10000, '\n');
+                cout << "Нажмите Enter...";
+                cin.ignore();
+                cin.get();
+                system("cls");
+                continue;
+            }
+            if (option <= 0 || option > tasks.size())
+            {
+                cout << "\nТакой задачи не существует!";
+                cout << "\nНажмите Enter...";
+                cin.ignore();
+                cin.get();
+                system("cls");
+                break;
+            }
+            cout << "Текущий текст: " << tasks[option - 1].text << "\n";
+            cin.ignore(10000, '\n');
+            cout << "Новый текст: ";
+            getline(cin, tasks[option - 1].text);
+            cout << "\nЗадача изменена!\n";
+            cout << "Нажмите Enter...";
+            cin.ignore();
+            cin.get();
+            system("cls");
+            break;
+        }
+        case 7:
         {
             save_file(tasks);
             cout << "До свидания!\n";
