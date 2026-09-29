@@ -3,6 +3,8 @@
 #include <string>
 #include <Windows.h>
 #include <fstream>
+#include <algorithm>
+
 using namespace std;
 
 
@@ -115,6 +117,10 @@ int main() {
                 system("cls");
                 break;
             }
+            sort(tasks.begin(), tasks.end(), [](const Task& a, const Task& b)
+                {
+                    return a.done < b.done;
+                });
             int i = 1;
             for (auto item : tasks) {
                 cout << i << ". ";
