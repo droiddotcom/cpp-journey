@@ -22,7 +22,7 @@
 
 ---
 
-### 📋 [TodoList](./TodoList)
+### 📋 [todo-list](./todo-list)
 Консольный список задач с сохранением в файл.
 
 **Изучено:** `struct`, `vector`, `fstream`, `find`, `substr`, `erase`, `sort` с лямбдой, цветной вывод
@@ -39,14 +39,14 @@
 
 ---
 
-### 📄 [FileTest](./FileTest)
+### 📄 [FilTest](./FilTest)
 Запись и чтение файла.
 
 **Изучено:** `ofstream`, `ifstream`, `getline` с файлом, `is_open()`
 
 ---
 
-### ❌⭕ [TicTacToe](./TicTacToe)
+### ❌⭕ [tic-tac-toe](./tic-tac-toe)
 Крестики-нолики для двух игроков.
 
 **Изучено:** двумерные массивы (`char board[3][3]`), игровое состояние, проверка 8 комбинаций победы, счётчик ходов
