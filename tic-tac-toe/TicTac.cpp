@@ -4,18 +4,26 @@
 
 using namespace std;
 
+void set_color(int color) {
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+}
+
 int main()
 {
     SetConsoleCP(65001);
     SetConsoleOutputCP(65001);
 
-
+    int x_wins = 0;
+    int o_wins = 0;
+    int draws = 0;
 
     char answer = 'y';
     char board[3][3];
 
     while (answer == 'y')
     {
+        
+
         for (int i = 0; i < 3; ++i)
         {
             for (int j = 0; j < 3; ++j)
@@ -29,17 +37,23 @@ int main()
         while (true)
         {
             system("cls");
+            cout << "Счёт: X: " << x_wins << " | " << "O: " << o_wins << " | " << "Ничьих: " << draws << "\n\n";
             for (int i = 0; i < 3; ++i)
             {
                 for (int j = 0; j < 3; ++j)
                 {
-                    cout << "|" << board[i][j];
+                    cout << "|";
+                    if (board[i][j] == 'X') set_color(12);
+                    else if (board[i][j] == 'O') set_color(9);
+                    else set_color(7);
+                    cout << board[i][j];
+                    set_color(7);
                 }
                 cout << "|\n";
             }
 
 
-            cout << "Введите строку и столбец (0-2) через пробел: ";
+            cout << "\nВведите строку и столбец (0-2) через пробел: ";
             int row, col;
             if (!(cin >> row >> col))
             {
@@ -90,6 +104,8 @@ int main()
                 board[2][0] != ' ' && board[2][0] == board[1][1] && board[1][1] == board[0][2]
                 ) {
                 cout << "Победил: " << current << "!\n";
+                if (current == 'X') ++x_wins;
+                else ++o_wins;
                 cout << "Играть еще? (y/n): ";
                 cin >> answer;
                 break;
@@ -97,6 +113,7 @@ int main()
             if (moves == 9)
             {
                 cout << "Ничья!";
+                ++draws;
                 cout << "Играть еще? (y/n): ";
                 cin >> answer;
                 break;

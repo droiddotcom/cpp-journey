@@ -8,5 +8,4 @@
   <Project Path="Kalkulator1/Kalkulator1.vcxproj" Id="53b432b7-b446-4ead-8453-741c19fda07b" />
   <Project Path="tic-tac-toe/tic-tac-toe.vcxproj" Id="dfa0259d-423a-416d-a6bc-78c9fef7b2e4" />
   <Project Path="todo-list/todo-list.vcxproj" Id="031ba35c-5428-4743-8d5c-8242ede93a25" />
-  <Project Path="Training/Training.vcxproj" Id="72b89435-25d0-4392-aeac-5d8bc5971219" />
 </Solution>
