@@ -42,14 +42,23 @@ int main()
             {
                 for (int j = 0; j < 3; ++j)
                 {
-                    cout << "|";
+                    cout << " ";
                     if (board[i][j] == 'X') set_color(12);
                     else if (board[i][j] == 'O') set_color(9);
                     else set_color(7);
                     cout << board[i][j];
                     set_color(7);
+                    cout << " ";
+                    if (j < 2) {
+                        cout << "|";
+                    }
                 }
-                cout << "|\n";
+                cout << "\n";
+                if (i < 2)
+                {
+                    
+                    cout << "---+---+---\n";
+                }
             }
 
 
