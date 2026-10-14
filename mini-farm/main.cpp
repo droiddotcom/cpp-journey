@@ -38,6 +38,136 @@ bool read_number(int& choice)
 	
 }
 
+void show_status(int day, int water, int water_plant, int grow, int fade)
+{
+	system("cls");
+	cout << "=== ДЕНЬ " << day << " ===\n";
+	cout << "Вода в запасе: " << water << "/100\n";
+	cout << "Единиц воды растения: " << water_plant << "/100\n";
+	cout << "Прогресс роста: " << grow << "\n";
+	cout << "Дней без воды: " << fade << "\n";
+	cout << "==============\n";
+	cout << "Нажмите Enter для продолжения...\n";
+	pause();
+	system("cls");
+}
+
+void wait_days(int skipDay, int& fade, bool& isRestart, int& day, int& grow, int& water_plant, int water)
+{
+	if (skipDay <= 0)
+	{
+		cout << "Введите положительное число!\n";
+		cout << "Нажмите Enter...";
+		pause();
+		system("cls");
+		return;
+	}
+	for (int i = 1; i <= skipDay; ++i)
+	{
+		if (fade >= 3)
+		{
+			isRestart = true;
+			break;
+		}
+		if (water_plant <= 0)
+		{
+			fade += 1;
+		}
+		else
+		{
+			grow += 1;
+		}
+
+		day += 1; // --- +1 день
+		if (water_plant > 0)
+		{
+			water_plant -= 10;
+		}
+
+	}
+	if (fade >= 3) { isRestart = true; return; }
+	cout << "\n\n=== Наступил " << day << " день ===\n";
+	cout << "Воды в запасе: " << water << "/100\n";
+	cout << "Единиц воды растения: " << water_plant << "/100\n";
+	cout << "Прогресс роста: " << grow << "\n";
+	cout << "Дней без воды: " << fade << "\n";
+	cout << "==============\n\n";
+	cout << "\n\nНажмите Enter для продолжения\n";
+	pause();
+	system("cls");
+}
+
+void fill_water(int water_pumped, int& water)
+{
+	if (water_pumped <= 0)
+	{
+		cout << "Введите положительное число!\n";
+		cout << "Нажмите Enter...";
+		pause();
+		system("cls");
+		return;
+	}
+	if (water + water_pumped > 100)
+	{
+		cout << "Вы не можете наполнить столько!\n";
+		cout << "Нажмите Enter...";
+		pause();
+		system("cls");
+		return;
+	}
+	else
+	{
+		water += water_pumped;
+	}
+	cout << "Вы набрали " << water_pumped << " единиц воды!\n";
+	cout << "Воды в запасе: " << water << "/100\n";
+	cout << "Нажмите Enter для продолжения...\n";
+	pause();
+	system("cls");
+}
+
+
+void water_plant_action(int& water, int& fade, int polivka, int& water_plant)
+{
+	if (polivka <= 0)
+	{
+		cout << "Введите положительное число!\n";
+		cout << "Нажмите Enter...";
+		pause();
+		system("cls");
+		return;
+	}
+	if (water < polivka)
+	{
+		cout << "Вам не хватает воды!\n" << "Вы можете пополнить ее в любой момент!\n";
+		pause();
+		system("cls");
+		return;
+	}
+	if (water_plant + polivka > 100)
+	{
+		cout << "Вы не столько поливать растение!\n";
+		cout << "Нажмите Enter...";
+		pause();
+		system("cls");
+		return;
+	}
+	else
+	{
+		water_plant += polivka;
+		water -= polivka;
+		fade = 0;
+	}
+
+
+	cout << "Вы полили растение на " << polivka << " единиц воды. Теперь у него " << water_plant << " единиц воды!\n";
+	cout << "Воды в запасе: " << water << "/100\n";
+	cout << "Нажмите Enter для продолжения...\n";
+	pause();
+	system("cls");
+}
+
+
 int main()
 {
 	SetConsoleCP(65001);
@@ -97,17 +227,7 @@ int main()
 		switch (choice)
 		{
 			case 1:
-		
-			system("cls");
-			cout << "=== ДЕНЬ " << day << " ===\n";
-			cout << "Вода в запасе: " << water << "/100\n";
-			cout << "Единиц воды растения: " << water_plant << "/100\n";
-			cout << "Прогресс роста: " << grow << "\n";
-			cout << "Дней без воды: " << fade << "\n";
-			cout << "==============\n";
-			cout << "Нажмите Enter для продолжения...\n";
-			pause();
-			system("cls");
+				show_status(day, water, water_plant, grow, fade);
 			break;
 
 			case 2:
@@ -121,48 +241,9 @@ int main()
 					system("cls");
 					continue;
 				}
-				if (skipDay <= 0)
-				{
-					cout << "Введите положительное число!\n";
-					cout << "Нажмите Enter...";
-					pause();
-					system("cls");
-					continue;
-				}
-				for (int i = 1; i <= skipDay; ++i)
-				{
-					if (fade >= 3)
-					{
-						isRestart = true;
-						break;
-					}
-					if (water_plant <= 0)
-					{
-						fade += 1;
-					}
-					else
-					{
-						grow += 1;
-					}
-
-					day += 1; // --- +1 день
-					if (water_plant > 0)
-					{
-						water_plant -= 10;
-					}
-					
-				}
-				if (fade >= 3) { isRestart = true; break; }
-				cout << "\n\n=== Наступил " << day << " день ===\n";
-				cout << "Воды в запасе: " << water << "/100\n";
-				cout << "Единиц воды растения: " << water_plant << "/100\n";
-				cout << "Прогресс роста: " << grow << "\n";
-				cout << "Дней без воды: " << fade << "\n";
-				cout << "==============\n\n";
-				cout << "\n\nНажмите Enter для продолжения\n";
-				pause();
-				system("cls");
-				break;
+				
+				wait_days(skipDay, fade, isRestart, day, grow, water_plant, water);
+			break;
 
 			case 3:
 				if (water >= 100)
@@ -183,31 +264,7 @@ int main()
 					system("cls");
 					continue;
 				}
-				if (water_pumped <= 0)
-				{
-					cout << "Введите положительное число!\n";
-					cout << "Нажмите Enter...";
-					pause();
-					system("cls");
-					continue;
-				}
-				if (water + water_pumped > 100)
-				{
-					cout << "Вы не можете наполнить столько!\n";
-					cout << "Нажмите Enter...";
-					pause();
-					system("cls");
-					continue;
-				}
-				else
-				{
-					water += water_pumped;
-				}
-				cout << "Вы набрали " << water_pumped << " единиц воды!\n";
-				cout << "Воды в запасе: " << water << "/100\n";
-				cout << "Нажмите Enter для продолжения...\n";
-				pause();
-				system("cls");
+				fill_water(water_pumped, water);
 				break;
 
 			case 4:
@@ -228,42 +285,7 @@ int main()
 					system("cls");
 					continue;
 				}
-				if (polivka <= 0)
-				{
-					cout << "Введите положительное число!\n";
-					cout << "Нажмите Enter...";
-					pause();
-					system("cls");
-					continue;
-				}
-				if (water < polivka)
-				{
-					cout << "Вам не хватает воды!\n" << "Вы можете пополнить ее в любой момент!\n";
-					pause();
-					system("cls");
-					continue;
-				}
-				if (water_plant + polivka > 100)
-				{
-					cout << "Вы не столько поливать растение!\n";
-					cout << "Нажмите Enter...";
-					pause();
-					system("cls");
-					continue;
-				}
-				else
-				{
-					water_plant += polivka;
-					water -= polivka;
-					fade = 0;
-				}
-				
-				
-				cout << "Вы полили растение на " << polivka << " единиц воды. Теперь у него " << water_plant << " единиц воды!\n";
-				cout << "Воды в запасе: " << water << "/100\n";
-				cout << "Нажмите Enter для продолжения...\n";
-				pause();
-				system("cls");
+				water_plant_action(water, fade, polivka, water_plant);
 				break;
 			case 5:
 				system("cls");
