@@ -12,13 +12,15 @@ private:
 	string name;
 	int hp;
 	int damage;
+	int armor;
 
 public:
-	Character(string n, int h, int d)
+	Character(string n, int h, int d, int ar)
 	{
 		name = n;
 		hp = h;
 		damage = d;
+		armor = ar;
 	}
 
 	string getName() { return name; }
@@ -29,12 +31,23 @@ public:
 
 	void takeDamage(int amount)
 	{
-		hp -= amount;
+
+		int currentArmor = armor + (rand() % 5 - 2);
+
+		int realDamage = amount - currentArmor;
+
+		if (realDamage < 0)
+		{
+			realDamage = 0;
+		}
+
+		hp -= realDamage;
 		if (hp <= 0)
 		{
 			hp = 0;
 		}
 		cout << "[" << name << "] получил " << amount << " урона. Осталось HP: " << hp << "\n";
+		cout << "(Броня сработала на " << currentArmor << "). Итоговый урон: " << realDamage << ". Осталось HP: " << hp << "\n";
 	}
 };
 
@@ -42,7 +55,7 @@ public:
 class Player : public Character
 {
 public:
-	Player(string n, int h, int d) : Character(n, h, d) {}
+	Player(string n, int h, int d, int ar) : Character(n, h, d, ar) {}
 
 	void attack(Character& target) override
 	{
@@ -63,7 +76,7 @@ public:
 class Ork : public Character
 {
 public:
-	Ork(string n, int h, int d) : Character(n, h, d) {}
+	Ork(string n, int h, int d, int ar) : Character(n, h, d, ar) {}
 
 	void attack(Character& target) override
 	{
@@ -88,8 +101,8 @@ int main()
 
 	srand(time(0));
 
-	Player p1("Игрок", 100, 15);
-	Ork p2("Орк", 100, 15);
+	Player p1("Игрок", 100, 15, 2);
+	Ork p2("Орк", 100, 15, 5);
 
 	cout << "=== БОЙ НАЧАЛСЯ ===\n\n";
 
