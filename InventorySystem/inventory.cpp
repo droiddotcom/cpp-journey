@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <string>
 #include <vector>
+#include <map>
 
 using namespace std;
 
@@ -27,6 +28,7 @@ public:
 
 	int getWeigth() { return weight; }
 	int getPrice() { return price; }
+	string getName() { return name; }
 };
 
 
@@ -77,20 +79,34 @@ public:
 class Inventory
 {
 private:
-	vector<Item*> items;
+	map<string, Item*> items;
 public:
 	
 	
 	void addItem(Item* newItem)
 	{
-		items.push_back(newItem);
+		items[newItem->getName()] = newItem;
+	}
+
+	void findItem(string name)
+	{
+		auto it = items.find(name);
+		if (it != items.end())
+		{
+			it->second->printInfo();
+		}
+		else
+		{
+			cout << "Предмета " << name << " нет в рюкзаке.\n";
+		}
+
 	}
 
 	void showInventory()
 	{
-		for (Item* item : items)
+		for (auto const& pair : items)
 		{
-			item->printInfo();
+			pair.second->printInfo();
 		}
 	}
 
@@ -98,9 +114,9 @@ public:
 	{
 		int totalWeight = 0;
 
-		for (Item* item : items)
+		for (auto const& pair : items)
 		{
-			totalWeight += item->getWeigth();
+			totalWeight += pair.second->getWeigth();
 		}
 
 		return totalWeight;
@@ -110,9 +126,9 @@ public:
 	{
 		int totalPrice = 0;
 
-		for (Item* item : items)
+		for (auto const& pair : items)
 		{
-			totalPrice += item->getPrice();
+			totalPrice += pair.second->getPrice();
 		}
 
 		return totalPrice;
