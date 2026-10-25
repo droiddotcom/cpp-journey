@@ -11,6 +11,7 @@
   <Project Path="D:/Projects/Quiz/Quiz.vcxproj" Id="fb4025e2-05bb-4cca-a268-62cc227b4009" />
   <Project Path="D:/Projects/tic-tac-toe/tic-tac-toe.vcxproj" Id="dfa0259d-423a-416d-a6bc-78c9fef7b2e4" />
   <Project Path="D:/Projects/todo-list/todo-list.vcxproj" Id="031ba35c-5428-4743-8d5c-8242ede93a25" />
+  <Project Path="GladiatorsSimulator/GladiatorsSimulator.vcxproj" Id="4fda180a-8cdb-40ba-9edd-067b8e3fe4e6" />
   <Project Path="GuildSystem/GuildSystem.vcxproj" Id="54914b5a-9daf-4a8c-b224-3ac0fd8cdc2a" />
   <Project Path="InventorySystem/InventorySystem.vcxproj" Id="414e8799-c616-42ee-b84d-6baa3d6ab870" />
 </Solution>
