@@ -1,7 +1,8 @@
 #include <iostream>
 #include <Windows.h>
 #include <string>
-
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
@@ -44,7 +45,9 @@ void show_status(int day, int water, int water_plant, int grow, int fade)
 	cout << "=== ДЕНЬ " << day << " ===\n";
 	cout << "Вода в запасе: " << water << "/100\n";
 	cout << "Единиц воды растения: " << water_plant << "/100\n";
-	cout << "Прогресс роста: " << grow << "\n";
+	if (grow >= 50) { cout << "Прогресс роста: 🌳 Дерево" << "\n"; }
+	else if (grow >= 20) { cout << "Прогресс роста: 🌿 Куст" << "\n"; }
+	else if (grow >= 0) { cout << "Прогресс роста: 🌱 Росток" << "\n"; }
 	cout << "Дней без воды: " << fade << "\n";
 	cout << "==============\n";
 	cout << "Нажмите Enter для продолжения...\n";
@@ -62,8 +65,34 @@ void wait_days(int skipDay, int& fade, bool& isRestart, int& day, int& grow, int
 		system("cls");
 		return;
 	}
+
 	for (int i = 1; i <= skipDay; ++i)
 	{
+		int weather = rand() % 100 + 1;
+
+		
+
+		if (weather <= 10)
+		{
+			cout << "День " << day << ": Идет дождь! Вода не тратится!\n";
+			water_plant += 10;
+			fade = 0;
+			if (water_plant > 100) water_plant = 100;
+		}
+		else if (weather > 10 && weather <= 20)
+		{
+			cout << "День " << day << ": Засуха! Вода тратится быстрее!\n";
+			water_plant -= 20;
+			if (water_plant < 0) water_plant = 0;
+		}
+		else
+		{
+			if (water_plant > 0)
+			{
+				water_plant -= 10;
+			}
+
+		}
 		if (fade >= 3)
 		{
 			isRestart = true;
@@ -78,11 +107,7 @@ void wait_days(int skipDay, int& fade, bool& isRestart, int& day, int& grow, int
 			grow += 1;
 		}
 
-		day += 1; // --- +1 день
-		if (water_plant > 0)
-		{
-			water_plant -= 10;
-		}
+		day += 1;
 
 	}
 	if (fade >= 3) { isRestart = true; return; }
@@ -184,6 +209,8 @@ int main()
 	bool isRestart = false;
 	char answer = 'y';
 
+	srand(time(0));
+
 	while (answer == 'y')
 	{
 		if (isRestart)
@@ -196,7 +223,7 @@ int main()
 			fade = 0;
 			do
 			{
-				cout << "К сожалению растение погибло...\n";
+				cout << "🥀 К сожалению растение погибло...\n";
 				cout << "Играть еще раз?(y/n): ";
 				cin >> answer;
 				cin.ignore(10000, '\n');
@@ -241,7 +268,6 @@ int main()
 					system("cls");
 					continue;
 				}
-				
 				wait_days(skipDay, fade, isRestart, day, grow, water_plant, water);
 			break;
 
@@ -286,6 +312,7 @@ int main()
 					continue;
 				}
 				water_plant_action(water, fade, polivka, water_plant);
+
 				break;
 			case 5:
 				system("cls");
