@@ -8,6 +8,14 @@
 
 using namespace std;
 
+
+void set_color(int color)
+{
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+}
+
+
+
 void setPause()
 {
 	cout << "[Нажмите Enter...]" << "\n";
@@ -55,8 +63,12 @@ class Player
 private:
 	string name;
 	int damage = 10;
-	int hp = 100;
+	int hp = 120;
 	int money = 100;
+	int level = 1;
+	int currentExp = 0;
+	int strength = 1;
+	int agility = 1;
 	map<string, Weapon*> inventory;
 	Weapon* equippedWeapon = nullptr;
 public:
@@ -68,15 +80,24 @@ public:
 	string getName() { return name; }
 	int getMoney() { return money; }
 	int getHealth() { return hp; }
+	int getMaxHealth() { return 100 + (strength * 20); }
+	int getCurrentLevel() { return level; }
+	int getCurrentExp() { return currentExp; }
+	int getExpToNewLevel() 
+	{ 
+		return 100 + ((level - 1) * 50);
+	}
+	int getStrength() { return strength; }
+	int getAgility() { return agility; }
 	int getDamage()
 	{
 		if (equippedWeapon == nullptr)
 		{
-			return damage;
+			return damage + (agility * 2);
 		}
 		else
 		{
-			return damage + equippedWeapon->getDamageWeapon();
+			return damage + (agility * 2) + equippedWeapon->getDamageWeapon();
 		}
 	}
 
@@ -93,15 +114,15 @@ public:
 	void Heal(int amount)
 	{
 		hp += amount;
-		if (hp > 100)
+		if (hp > getMaxHealth())
 		{
-			hp = 100;
+			hp = getMaxHealth();
 		}
 	}
 
 	void printStatistic()
 	{
-		cout << "[" << getName() << "] | [Хп]: " << getHealth() << " | [Золото]: " << getMoney() << " | [Урон]: " << getDamage() << "\n";
+		cout << "[" << getName() << "] | [Хп]: " << getHealth() << " | [Золото]: " << getMoney() << " | [Урон]: " << getDamage() << " | [Сила]: " << getStrength() << " | [Ловкость]: " << getAgility() << " | [Уровень]: " << getCurrentLevel() << " | [Опыт]: " << getCurrentExp() << "/" << getExpToNewLevel() << "\n";
 	}
 
 	void addDamage(int amount)
@@ -124,6 +145,33 @@ public:
 		money += amount;
 	}
 
+	void addExpToPlayer(int amount)
+	{
+		if (amount < 0)
+		{
+			amount = 0;
+			return;
+		}
+		currentExp += amount;
+
+		int expNeeded = getExpToNewLevel();
+
+		if (currentExp >= expNeeded)
+		{
+			level += 1;
+			strength += 1;
+			agility += 1;
+			currentExp -= expNeeded;
+			hp = getMaxHealth();
+			set_color(10);
+			cout << "=== УРОВЕНЬ ПОВЫШЕН! ===" << "\n";
+			set_color(7);
+			setPause();
+		}
+	}
+
+
+
 
 	bool isDead()
 	{
@@ -132,30 +180,38 @@ public:
 
 	void goToHospital()
 	{
-		if (hp >= 100)
+		if (hp >= getMaxHealth())
 		{
+			set_color(12);
 			cout << "Ты выглядишь слишком целым для этого места. Иди, не занимай место, мне тут трупы бинтовать надо" << "\n";
+			set_color(7);
 			setPause();
 			return;
 		}
 		if (money < 30)
 		{
+			set_color(12);
 			cout << "Эй, приятель, я вижу, ты еле стоишь. Но я тут работаю за звонкую монету. Приходи, когда у тебя будет 30 золотых, и я подлатаю твои кости." << "\n";
+			set_color(7);
 			setPause();
 			return;
 		}
-		if (hp <= 50)
+		if (hp <= (getMaxHealth() / 2))
 		{
+			set_color(10);
 			cout << "Ну-ка, покажись... Ого, да у тебя тут мясо висит. Так, 30 монет на бочку. Сейчас будет больно." << "\n";
+			set_color(7);
 		}
 		else
 		{
-			cout << "Ты почти в порядке. Но раз платишь, я замажу твои царапины. Только учти, больше 100 ХП я тебе не сделаю." << "\n";
+			set_color(14);
+			cout << "Ты почти в порядке. Но раз платишь, я замажу твои царапины. Только учти, что нынче труд оплачивается!" << "\n";
+			set_color(7);
 		}
 
 		money -= 30;
 		hp += 50;
-		if (hp > 100) hp = 100;
+		if (hp > getMaxHealth()) hp = getMaxHealth();
 		if (money < 0) money = 0;
 		setPause();
 	}
@@ -170,11 +226,14 @@ public:
 		{
 			for (auto const& pair : inventory)
 			{
+				
 				cout << "[" << pair.first << "] | Урон: " << pair.second->getDamageWeapon() << " единиц";
 
 				if (equippedWeapon == pair.second)
 				{
+					set_color(10);
 					cout << "  <=== [В РУКАХ]";
+					set_color(7);
 				}
 				cout << "\n";
 			}
@@ -224,14 +283,18 @@ public:
 			Weapon* selectedWeapon = shop[weaponName];
 			if (buyer.getMoney() >= price)
 			{
+				set_color(10);
 				cout << "[" << selectedWeapon->getNameWeapon() << "] успешно куплен!" << "\n";
+				set_color(7);
 				buyer.spendMoney(selectedWeapon->getPriceWeapon());
 				buyer.addWeaponToInv(selectedWeapon);
 				shop.erase(weaponName);
 			}
 			else
 			{
+				set_color(12);
 				cout << "Нехватает денег!" << "\n";
+				set_color(7);
 			}
 		}
 		else
@@ -256,8 +319,9 @@ protected:
 	int hp;
 	int damage;
 	int reward;
+	int rewardExp;
 public:
-	Enemy(string n, int h, int d, int r) { name = n, hp = h, damage = d, reward = r; }
+	Enemy(string n, int h, int d, int r, int rE) { name = n, hp = h, damage = d, reward = r; rewardExp = rE; }
 
 	void takeDamage(int amount)
 	{
@@ -289,6 +353,7 @@ public:
 	{
 		return hp <= 0;
 	}
+	int getRewardExp() { return rewardExp; }
 
 };
 
@@ -310,8 +375,8 @@ public:
 	{
 		cout << "=== НА АРЕНУ ВЫХОДИТ ПРОТИВНИК ===" << "\n";
 		cout << "Вы столкнулись с [" << enemy->getNameOfEnemy() << "]!" << "\n\n";
-		cout << "[Ваши статы]: HP: " << player.getHealth() << " | Урон: " << player.getDamage() << "\n";
-		cout << "[Статы врага]: HP: " << enemy->getHpOfEnemy() << " | Урон: " << enemy->getDamageOfEnemy() << " | Награда: " << enemy->getRewardOfEnemy() << "\n\n";
+		cout << "[Ваши статы]: HP: " << player.getHealth() << " | Урон: " << player.getDamage() << " | Уровень: " << player.getCurrentLevel() << " | Опыт: " << player.getCurrentExp() << " | Опыта до следущего уровня: " << player.getExpToNewLevel() - player.getCurrentExp() << "\n";
+		cout << "[Статы врага]: HP: " << enemy->getHpOfEnemy() << " | Урон: " << enemy->getDamageOfEnemy() << " | Награда: " << enemy->getRewardOfEnemy() << " | Опыт: " << enemy->getRewardExp() << "\n\n";
 		cout << "Нажмите Enter, чтобы начать бой..." << "\n";
 		setPause();
 	}
@@ -353,7 +418,8 @@ public:
 		{
 			cout << "Вы победили " << enemyName << "!\n";
 			player.addMoney(enemy->getRewardOfEnemy());
-			cout << "Вы получили " << enemy->getRewardOfEnemy() << " золота!\n";
+			player.addExpToPlayer(enemy->getRewardExp());
+			cout << "Вы получили " << enemy->getRewardOfEnemy() << " золота и " << enemy->getRewardExp() << " опыта!" << "\n";
 			setPause();
 		}
 		else
@@ -372,7 +438,9 @@ public:
 void printMenu()
 {
 	system("cls");
+	set_color(14);
 	cout << "==== Симулятор Гладиатора ====" << "\n";
+	set_color(7);
 	cout << "1. Мои характеристики" << "\n";
 	cout << "2. Посмотреть магазин" << "\n";
 	cout << "3. Купить оружие" << "\n";
@@ -396,6 +464,8 @@ bool checkChoice(int& choice)
 	}
 	return false;
 }
+
+
 
 
 int main()
@@ -443,7 +513,9 @@ int main()
 		{
 		case 1:
 		{
+			set_color(11);
 			myPlayer.printStatistic();
+			set_color(7);
 			setPause();
 			break;
 
@@ -471,14 +543,14 @@ int main()
 			int chance = rand() % 100 + 1;
 			if (chance <= 50)
 			{
-				Enemy slime("Слайм", 30, 5, 20);
-
+				Enemy slime("Слайм", 30, 5, 20, 30);
+				myArena.getStatisticOfFight(&slime, myPlayer);
 				myArena.startRound(&slime, myPlayer);
 			}
 			else
 			{
-				Enemy goblin("Гоблин", 60, 15, 50);
-
+				Enemy goblin("Гоблин", 60, 15, 50, 60);
+				myArena.getStatisticOfFight(&goblin, myPlayer);
 				myArena.startRound(&goblin, myPlayer);
 			}
 
